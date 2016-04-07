@@ -1,10 +1,11 @@
 $(document).ready(function() {
     moment.locale('en-gb');
-    
+
     var table = $('#example').DataTable({
         select: true,
         "paging": false,
         "filter": false,
+        "autoWidth": false,
         "columnDefs": [{
             "targets": -1,
             "data": null,
@@ -12,6 +13,18 @@ $(document).ready(function() {
         }, {
             "targets": [0],
             "visible": false
+        }, {
+            "width": "5%",
+            "targets": [0]
+        }, {
+            "width": "5%",
+            "targets": [3,5]
+        }, {
+            "width": "32.5%",
+            "targets": [1,2]
+        }, {
+            "width": "15%",
+            "targets": [4]
         }]
     });
 
@@ -20,13 +33,12 @@ $(document).ready(function() {
         var row = table.row($(this).parents('tr'));
         e.preventDefault();
 
-var options = {
-        message: "Are you sure you want to delete this notification?",
-        title: 'Delete'
-        //size: eModal.size.lg,
-        //subtitle: 'smaller text header'
-      
-    };
+        var options = {
+            message: "Are you sure you want to delete this notification?",
+            title: 'Delete'
+
+
+        };
 
         eModal.confirm(options, null)
             .then(function() {
@@ -62,7 +74,7 @@ var options = {
     table.on('select', function(e, dt, type, indexes) {
         if (type === 'row') {
             selected = true;
-            
+
             var d = table.rows(indexes).data()[0];
             selectedId = d[0];
             //console.log(data);
@@ -94,7 +106,7 @@ var options = {
         else {
             valid = false;
         }
-        
+
         if (selected == false) {
             $.ajax({
                 type: "POST",
@@ -140,20 +152,20 @@ var options = {
                     "valid": valid
                 }),
                 success: function(returndata) {
-                var r = table.rows('.selected');
-                
-                table
-                    .row(r)
-                    .data(
-                        [
-                            selectedId,
-                            $('#document').val(),
-                            $('#description').val(),
-                            valid,
-                            $('#validto').val()
-                        ])
-                    .draw(true);      
-                    
+                    var r = table.rows('.selected');
+
+                    table
+                        .row(r)
+                        .data(
+                            [
+                                selectedId,
+                                $('#document').val(),
+                                $('#description').val(),
+                                valid,
+                                $('#validto').val()
+                            ])
+                        .draw(true);
+
                     table.$('tr.selected').removeClass('selected');
                     selected = false;
                     selectedId = '';
@@ -161,10 +173,10 @@ var options = {
                     $('#description').val('');
                     $('#validto').val('');
                     $('#valid').attr('checked', true);
-                    
-                    
-                    
-                    
+
+
+
+
                 }
             });
         }
