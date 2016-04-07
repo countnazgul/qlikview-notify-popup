@@ -25,11 +25,6 @@ notifydb.loadDatabase(function(err) {
     console.log('"notify" db is loaded');
 });
 
-
-app.listen(config.main.port, function() {
-    console.log('Server is listening on port ' + config.main.port + '!');
-});
-
 app.get('/', function(req, res) {
     notifydb.find({}, function(err, docs) {
         res.render('index', { notifications: docs });
@@ -45,14 +40,34 @@ app.post('/add', function(req, res) {
         valid: data.valid,
         validTo: data.validTo
     }, function(err, newNotification) {
-        res.send(newNotification)
-    })
+        res.send(newNotification);
+    });
+});
+
+app.post('/update', function(req, res) {
+    var data = req.body;
+    
+    notifydb.update({ _id: data.id }, { $set: { 
+        document: data.document,
+        description: data.description,
+        valid: data.valid,
+        validTo: data.validTo
+    }}, { multi: false }, function (err, numReplaced) {
+      res.send({updated: numReplaced});
+    });    
 });
 
 app.post('/delete', function(req, res) {
     var data = req.body;
-    res.send({removed: 1});
-    //notifydb.remove({ _id: data.id }, {}, function (err, numRemoved) {
-    //    res.send(numRemoved);
-    //});    
+    //res.send({removed: 1});
+    notifydb.remove({ _id: data.id }, {}, function (err, numRemoved) {
+        res.send({removed: numRemoved});
+    });    
+});
+
+
+app.set('port', process.env.PORT || config.main.port);
+
+var server = app.listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + server.address().port);
 });
