@@ -1,0 +1,16 @@
+{
+    "name": "qlikview-notification-popup",
+    "version": "0.0.1",
+    "description": "",
+    "author": "Stefan Stoichev <stefan.stoichev@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "async": "1.5.x",
+        "express": "4.13.x",
+        "body-parser": "1.15.x",
+        "morgan": "1.7.x",
+        "nedb": "1.8.x",
+        "swig": "1.4.x",
+        "consolidate": "0.14.x"
+    }
+}
