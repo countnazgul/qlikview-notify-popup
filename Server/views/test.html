@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="/js/datatables.min.js"></script>
+    <script type="text/javascript" src="/js/notify.min.js"></script>
+    <style type="text/css">
+        .notifyjs-foo-base {
+            opacity: 1;
+            background: #EED3D7;
+            padding: 5px;
+            font-weight: bold;
+            width: 500px;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            var documentName = 'Weekly_Channel_Dashboard.qvw';
+
+            $.get("notifications/" + documentName, function(data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    $.notify.addStyle('foo', {
+                        html: "<div style='notifyjs-foo-base'>" +
+                            data[i].description +
+                            "</div>"
+                    });
+
+                    $.notify({}, {
+                        style: 'foo',
+                        position: 'top left',
+                        autoHide: true,
+                        clickToHide: true,
+                        autoHideDelay: 10000
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

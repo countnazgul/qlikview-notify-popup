@@ -12,7 +12,7 @@ $(document).ready(function() {
             "defaultContent": '<a class="btn btn-danger" href="#"><i class="icon-trash icon-white"></i>Delete</a>'
         }, {
             "targets": [0],
-            "visible": false
+            "visible": true
         }, {
             "width": "5%",
             "targets": [0]
@@ -76,7 +76,8 @@ $(document).ready(function() {
             selected = true;
 
             var d = table.rows(indexes).data()[0];
-            selectedId = d[0];
+            
+            selectedId = $(d[0]).text();
             //console.log(data);
             $('#document').val(d[1]);
             $('#description').val(d[2]);
@@ -122,7 +123,7 @@ $(document).ready(function() {
                 }),
                 success: function(returndata) {
                     table.row.add([
-                        returndata._id,
+                        '<a href="/details/' + returndata._id + '">' + returndata._id + '</a>',
                         $('#document').val(),
                         $('#description').val(),
                         valid,
