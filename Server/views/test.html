@@ -10,25 +10,58 @@
             padding: 5px;
             font-weight: bold;
             width: 500px;
+            overflow: auto;
+        }
+        
+        .notifyjs-foo-base .buttons {
+            width: 70px;
+            float: right;
+            font-size: 9px;
+            padding: 5px;
+            margin: 2px;
+        }
+        
+        .notifyjs-foo-base button {
+            font-size: 9px;
+        }
+        
+        .left {
+            float: left;
+            width: 90%;
+        }
+        
+        .right {
+            float: left;
+            width: 10%;
+            font-size: 10px;
         }
     </style>
     <script>
         $(document).ready(function() {
+
+            $(document).on('click', '.notifyjs-foo-base .no', function(e) {
+                e.preventDefault();
+                var url = '/details/' + $(this).attr('id')
+                window.open(url, '_blank');
+            });
+
             var documentName = 'Weekly_Channel_Dashboard.qvw';
 
             $.get("notifications/" + documentName, function(data) {
-                console.log(data);
+                //console.log(data);
                 for (var i = 0; i < data.length; i++) {
                     $.notify.addStyle('foo', {
-                        html: "<div style='notifyjs-foo-base'>" +
+                        html: "<div style='notifyjs-foo-base'><div class='left'>" +
                             data[i].description +
-                            "</div>"
+                            "</div><div class='right'>" +
+                            "<button class='no' id='" + data[i]._id + "'>Details</button>" +
+                            "</div></div>"
                     });
 
                     $.notify({}, {
                         style: 'foo',
                         position: 'top left',
-                        autoHide: true,
+                        autoHide: false,
                         clickToHide: true,
                         autoHideDelay: 10000
                     });
