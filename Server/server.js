@@ -31,6 +31,13 @@ app.get('/', function(req, res) {
     });
 });
 
+app.get('/notification/:id', function(req, res) {
+    notifydb.findOne({_id: req.params.id}, function(err, doc) {
+        doc.document = doc.document.split(';');
+        res.render('notification', { notification: doc });
+    });
+});
+
 
 app.post('/add', function(req, res) {
     var data = req.body;

@@ -1,0 +1,31 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="/js/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Notification</h1>
+        </div>
+        <div>
+            <h3>Documents Affected</h3>
+            {% for doc in notification.document %}
+                {{ doc }} <br>
+            {% endfor %}
+        </div><br>
+        <div>
+            <h3>Description</h3>
+            {{ notification.description }}
+        </div><br>
+        <div>
+            <h3>Valid to</h3>
+            {{ notification.validTo }}
+        </div>        
+    </div>
+</body>
+
+</html>
