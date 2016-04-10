@@ -161,7 +161,7 @@ $(document).ready(function() {
                         .row(r)
                         .data(
                         [
-                            selectedId,
+                            '<a href="/details/' + selectedId + '">' + selectedId + '</a>',
                             $('#document').val(),
                             $('#description').val(),
                             valid,
