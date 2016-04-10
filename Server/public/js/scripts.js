@@ -11,61 +11,63 @@ $(document).ready(function() {
             "data": null,
             "defaultContent": '<a class="btn btn-danger" href="#"><i class="icon-trash icon-white"></i>Delete</a>'
         }, {
-            "targets": [0],
-            "visible": true
-        }, {
-            "width": "5%",
-            "targets": [0]
-        }, {
-            "width": "5%",
-            "targets": [3,5]
-        }, {
-            "width": "32.5%",
-            "targets": [1,2]
-        }, {
-            "width": "15%",
-            "targets": [4]
-        }]
+                "targets": [0],
+                "visible": true
+            }, {
+                "width": "5%",
+                "targets": [0]
+            }, {
+                "width": "5%",
+                "targets": [3, 5]
+            }, {
+                "width": "32.5%",
+                "targets": [1, 2]
+            }, {
+                "width": "15%",
+                "targets": [4]
+            }]
     });
 
     $('#example tbody').on('click', 'a', function(e) {
-        var data = table.row($(this).parents('tr')).data();
-        var row = table.row($(this).parents('tr'));
-        e.preventDefault();
 
-        var options = {
-            message: "Are you sure you want to delete this notification?",
-            title: 'Delete'
+        if ($(this).attr("class") == 'btn btn-danger') {
+            var data = table.row($(this).parents('tr')).data();
+            var row = table.row($(this).parents('tr'));
+            e.preventDefault();
 
+            var options = {
+                message: "Are you sure you want to delete this notification?",
+                title: 'Delete'
+            };
+            
+            var id = $(data[0]).text();
 
-        };
+            eModal.confirm(options, null)
+                .then(function() {
+                    $.ajax({
+                        type: "POST",
+                        url: '/delete',
+                        dataType: 'json',
+                        contentType: "application/json",
+                        async: true,
+                        data: '{"id": "' + id + '"}',
+                        success: function(returndata) {
 
-        eModal.confirm(options, null)
-            .then(function() {
-                $.ajax({
-                    type: "POST",
-                    url: '/delete',
-                    dataType: 'json',
-                    contentType: "application/json",
-                    async: true,
-                    data: '{"id": "' + data[0] + '"}',
-                    success: function(returndata) {
-
-                        if (returndata.removed === 1) {
-                            row.remove().draw();
-                            $('#document').val('')
-                            $('#description').val('')
-                            $('#validto').val('')
-                            $('#save').text('Add');
-                            $('#active').prop('checked', false);
-                            selected = false;
+                            if (returndata.removed === 1) {
+                                row.remove().draw();
+                                $('#document').val('')
+                                $('#description').val('')
+                                $('#validto').val('')
+                                $('#save').text('Add');
+                                $('#active').prop('checked', false);
+                                selected = false;
+                            }
                         }
-                    }
+                    });
+                }, function() {
+                    //console.log('cancel')
                 });
-            }, function() {
-                //console.log('cancel')
-            });
-
+        }
     });
 
     var selected = false;
@@ -76,7 +78,7 @@ $(document).ready(function() {
             selected = true;
 
             var d = table.rows(indexes).data()[0];
-            
+
             selectedId = $(d[0]).text();
             //console.log(data);
             $('#document').val(d[1]);
@@ -158,13 +160,13 @@ $(document).ready(function() {
                     table
                         .row(r)
                         .data(
-                            [
-                                selectedId,
-                                $('#document').val(),
-                                $('#description').val(),
-                                valid,
-                                $('#validto').val()
-                            ])
+                        [
+                            selectedId,
+                            $('#document').val(),
+                            $('#description').val(),
+                            valid,
+                            $('#validto').val()
+                        ])
                         .draw(true);
 
                     table.$('tr.selected').removeClass('selected');

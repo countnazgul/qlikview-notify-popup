@@ -1,5 +1,7 @@
 <html>
     <head>
+        <title>Notifications setup</title>
+        <link rel="shortcut icon" type="image/png" href="/images/notify.png"/>
         <script type="text/javascript" src="./js/datatables.min.js"></script>
     
         <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
@@ -7,21 +9,8 @@
         <script type="text/javascript" src="./js/dataTables.tableTools.js"></script>
         <script type="text/javascript" src="./js/bootstrap.js"></script>
     
-        <!--<script type="text/javascript" src="./js/bootstrap-modal.js"></script>
-        <script type="text/javascript" src="./js/bootstrap-modalmanager.js"></script>    
-        <script type="text/javascript" src="./js/bootbox.min.js"></script>-->
-    
-    
-        <!--<script type="text/javascript" src="./js/dataTables.bootstrap.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="./css/dataTables.bootstrap.min.css" />-->
-    
         <link rel="stylesheet" type="text/css" href="./css/datatables.min.css" />
         <script type="text/javascript" src="./js/scripts.js"></script>
-    
-        <!--<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <script src="//datatables.net/download/build/nightly/jquery.dataTables.js"></script>
-        <script src="//cdn.datatables.net/tabletools/2.2.2/js/dataTables.tableTools.js"></script>       -->
     
         <script src="//cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
         <link href="//cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
@@ -48,10 +37,7 @@
                 <div class="form-group  col-xs-3">
                     <input type="text" class="form-control" name="description" id="description" value="" placeholder="Description" />
                 </div>
-                <!--<div class="form-group  col-xs-3">
-                    <input type="text" class="form-control" name="valid" value="" id="validto" placeholder="Valid To" />
-                </div>-->
-    
+
                 <div class='col-xs-3'>
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker1'>
@@ -93,7 +79,7 @@
                 <tbody>
                     {% for notification in notifications %}
                     <tr>
-                        <td><a href="/details/{{ notification._id }}">{{ notification._id }}</a></td>
+                        <td><a href="/details/{{ notification._id }}" target="_blank">{{ notification._id }}</a></td>
                         <td>{{ notification.document }}</td>
                         <td>{{ notification.description }}</td>
                         <td>{{ notification.valid }}</td>
