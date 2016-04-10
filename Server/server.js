@@ -3,7 +3,7 @@ var async = require('async');
 var swig = require('swig');
 var cons = require('consolidate');
 //var fs = require('fs');
-var moment = require('momentjs');
+var moment = require('moment');
 var Datastore = require('nedb');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
@@ -60,20 +60,20 @@ app.get('/notifications/:document', function(req, res) {
         var notifications = [];
         async.each(docs, function(doc, callback) {
 
-            if (doc.document.toLowerCase().indexOf(req.params.document.toLowerCase()) > -1) {
-                if (doc.valid == true) {
-
+            if (doc.document.toLowerCase().indexOf(req.params.document.toLowerCase()) > -1) {                
+                if (doc.valid == true) {                    
                     if (moment(Date.parse(doc.validTo)) >= moment()) {
+                                               
                         notifications.push(doc);
                         callback();
                     }
                     else {
-                        console.log('test');
+                        //console.log('test111');
                         callback();
                     }
                 }
                 else {
-                    console.log('test123');
+                    //console.log('test123');
                     callback();
                 }
             }
