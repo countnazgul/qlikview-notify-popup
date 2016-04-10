@@ -3,11 +3,11 @@ $(document).ready(function() {
 
     var table = $('#example').DataTable({
         select: true,
-        "paging": false,
-        "filter": false,
+        "paging": true,
+        "filter": true,
         "autoWidth": false,
         "columnDefs": [{
-            "targets": -1,
+            "targets": -2,
             "data": null,
             "defaultContent": '<a class="btn btn-danger" href="#"><i class="icon-trash icon-white"></i>Delete</a>'
         }, {
@@ -25,6 +25,9 @@ $(document).ready(function() {
             }, {
                 "width": "15%",
                 "targets": [4]
+            }, {
+                "targets": -1,
+                "visible": false
             }]
     });
     $.notify.defaults({ globalPosition: "top left" });
@@ -58,6 +61,7 @@ $(document).ready(function() {
                                 row.remove().draw();
                                 $('#document').val('')
                                 $('#description').val('')
+                                $('#detaildescription').val('')
                                 $('#validto').val('')
                                 $('#save').text('Add');
                                 $('#active').prop('checked', false);
@@ -89,6 +93,7 @@ $(document).ready(function() {
             $('#save').text('Update');
             var checked = (d[3] === "true");
             $('#active').prop('checked', checked);
+            $('#detaildescription').val(d[6])
 
         }
     });
@@ -101,6 +106,7 @@ $(document).ready(function() {
         $('#validto').val('')
         $('#save').text('Add');
         $('#active').prop('checked', true);
+        $('#detaildescription').val('');
     });
 
     $('#save').on('click', function() {
@@ -112,7 +118,7 @@ $(document).ready(function() {
             valid = false;
         }
 
-        if ($('#document').val() != '' && $('#description').val() != '' && $('#validto').val() != '') {
+        if ($('#document').val() != '' && $('#description').val() != '' && $('#validto').val() != '' && $('#detaildescription').val() != '') {
             if (selected == false) {
                 $.ajax({
                     type: "POST",
@@ -124,7 +130,8 @@ $(document).ready(function() {
                         "document": $('#document').val(),
                         "description": $('#description').val(),
                         "validTo": $('#validto').val(),
-                        "valid": valid
+                        "valid": valid,
+                        'detaildescription': $('#detaildescription').val()
                     }),
                     success: function(returndata) {
                         table.row.add([
@@ -132,11 +139,14 @@ $(document).ready(function() {
                             $('#document').val(),
                             $('#description').val(),
                             valid,
-                            $('#validto').val()
+                            $('#validto').val(),
+                            '',
+                            $('#detaildescription').val()
 
                         ]).draw(true);
                         $('#document').val('');
                         $('#description').val('');
+                        $('#detaildescription').val('');
                         $('#validto').val('');
                         $('#valid').attr('checked', true);
                         $.notify("Added",  "success");
@@ -155,7 +165,8 @@ $(document).ready(function() {
                         "document": $('#document').val(),
                         "description": $('#description').val(),
                         "validTo": $('#validto').val(),
-                        "valid": valid
+                        "valid": valid,
+                        'detaildescription': $('#detaildescription').val()
                     }),
                     success: function(returndata) {
                         var r = table.rows('.selected');
@@ -168,7 +179,9 @@ $(document).ready(function() {
                                 $('#document').val(),
                                 $('#description').val(),
                                 valid,
-                                $('#validto').val()
+                                $('#validto').val(),
+                                '',
+                                 $('#detaildescription').val()
                             ])
                             .draw(true);
 
@@ -177,6 +190,7 @@ $(document).ready(function() {
                         selectedId = '';
                         $('#document').val('');
                         $('#description').val('');
+                        $('#detaildescription').val('');
                         $('#validto').val('');
                         $('#valid').attr('checked', true);
                         $.notify("Updated", "success");

@@ -104,7 +104,8 @@ app.post('/add', function(req, res) {
         document: data.document,
         description: data.description,
         valid: data.valid,
-        validTo: data.validTo
+        validTo: data.validTo,
+        detaildescription: data.detaildescription
     }, function(err, newNotification) {
         res.send(newNotification);
     });
@@ -121,7 +122,8 @@ app.post('/update', function(req, res) {
             document: data.document,
             description: data.description,
             valid: data.valid,
-            validTo: data.validTo
+            validTo: data.validTo,
+            detaildescription: data.detaildescription
         }
     }, {
         multi: false

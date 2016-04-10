@@ -26,20 +26,23 @@
         <script type="text/javascript" src="./js/bootstrap-datetimepicker.min.js"></script>
         <link rel="stylesheet" href="./css/bootstrap-datetimepicker.min.css" />
         <script type="text/javascript" src="/js/notify.min.js"></script>
+        <link rel="stylesheet" href="./css/styles.css" />
     </head>
 
     <body>
         <br>
         <div class="container">
             <div class="row">
-                <div class="form-group  col-xs-3">
-                    <input type="text" class="form-control" name="document" id="document" value="" placeholder="Document" required="true" />
+                <div class="form-group  col-xs-2">
+                    <input type="text" class="form-control" name="document" id="document" value="" placeholder="Document(s)" required="true" />
                 </div>
-                <div class="form-group  col-xs-3">
-                    <input type="text" class="form-control" name="description" id="description" value="" placeholder="Description" required="true"/>
+                <div class="form-group  col-xs-2">
+                    <input type="text" class="form-control" name="description" id="description" value="" placeholder="Short description" required="true"/>
                 </div>
-
-                <div class='col-xs-3'>
+                <div class="form-group  col-xs-4">
+                    <input type="text" class="form-control" name="description" id="detaildescription" value="" placeholder="Detailed description" required="true"/>
+                </div>
+                <div class='col-xs-2'>
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker1'>
                             <input type='text' class="form-control" id="validto" />
@@ -73,8 +76,9 @@
                         <th>Document</th>
                         <th>Description</th>
                         <th>Enabled</th>
-                        <th>Valid to</th>
+                        <th>Valid to</th>                        
                         <th></th>
+                        <th>Detailed Descr</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,14 +86,17 @@
                     <tr>
                         <td><a href="/details/{{ notification._id }}" target="_blank">{{ notification._id }}</a></td>
                         <td>{{ notification.document }}</td>
-                        <td>{{ notification.description }}</td>
+                        <td title="{{ notification.detaildescription }}" >{{ notification.description }}</td>
                         <td>{{ notification.valid }}</td>
-                        <td>{{ notification.validTo }}</td>
+                        <td>{{ notification.validTo }}</td>                        
                         <td>Delete</td>
+                        <td>{{ notification.detaildescription }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+           <br>
+           (Hover on description to view detailed description)
         </div>
     
     </body>

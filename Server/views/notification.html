@@ -14,14 +14,18 @@
             <h1>Notification</h1>
         </div>
         <div>
-            <h3>Documents Affected</h3>
+            <h3>Short Description</h3>
+            {{ notification.description }}
+        </div><br>        
+        <div>
+            <h3>Document(s) Affected</h3>
             {% for doc in notification.document %}
                 {{ doc }} <br>
             {% endfor %}
         </div><br>
         <div>
             <h3>Description</h3>
-            {{ notification.description }}
+            {{ notification.detaildescription }}
         </div><br>
         <div>
             <h3>Valid to</h3>
