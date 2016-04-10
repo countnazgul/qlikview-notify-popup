@@ -8,6 +8,8 @@ Notifications are added in the server part and the extension is loading them fro
 
 Recently we had data issue and few documents was affected by this. We notified the users by adding textboxes in these documents with a warning an explanation. But while this particular data issue was still active 2-3 more data issues was found and editing the text boxes was not quite an option since the we didn't have enough space in the main sheet also there was no guarantee that the users will navigate straight to the main sheet and also editing all the documents, saving and publish them again was a bit slow process.  
 
+![screenshot](https://raw.githubusercontent.com/countnazgul/qlikview-notify-popup/master/Extension/screenshot.png)
+
 ### Server setup
 
 Clone this repo and run `npm install`
