@@ -27,6 +27,7 @@ $(document).ready(function() {
                 "targets": [4]
             }]
     });
+    $.notify.defaults({ globalPosition: "top left" });
 
     $('#example tbody').on('click', 'a', function(e) {
 
@@ -39,7 +40,7 @@ $(document).ready(function() {
                 message: "Are you sure you want to delete this notification?",
                 title: 'Delete'
             };
-            
+
             var id = $(data[0]).text();
 
             eModal.confirm(options, null)
@@ -61,6 +62,7 @@ $(document).ready(function() {
                                 $('#save').text('Add');
                                 $('#active').prop('checked', false);
                                 selected = false;
+                                $.notify("Deleted", "success");
                             }
                         }
                     });
@@ -110,78 +112,79 @@ $(document).ready(function() {
             valid = false;
         }
 
-        if (selected == false) {
-            $.ajax({
-                type: "POST",
-                url: '/add',
-                dataType: 'json',
-                contentType: "application/json",
-                async: true,
-                data: JSON.stringify({
-                    "document": $('#document').val(),
-                    "description": $('#description').val(),
-                    "validTo": $('#validto').val(),
-                    "valid": valid
-                }),
-                success: function(returndata) {
-                    table.row.add([
-                        '<a href="/details/' + returndata._id + '">' + returndata._id + '</a>',
-                        $('#document').val(),
-                        $('#description').val(),
-                        valid,
-                        $('#validto').val()
-
-                    ]).draw(true);
-                    $('#document').val('');
-                    $('#description').val('');
-                    $('#validto').val('');
-                    $('#valid').attr('checked', true);
-
-                }
-            });
-        }
-        else {
-            $.ajax({
-                type: "POST",
-                url: '/update',
-                dataType: 'json',
-                contentType: "application/json",
-                async: true,
-                data: JSON.stringify({
-                    "id": selectedId,
-                    "document": $('#document').val(),
-                    "description": $('#description').val(),
-                    "validTo": $('#validto').val(),
-                    "valid": valid
-                }),
-                success: function(returndata) {
-                    var r = table.rows('.selected');
-
-                    table
-                        .row(r)
-                        .data(
-                        [
-                            '<a href="/details/' + selectedId + '">' + selectedId + '</a>',
+        if ($('#document').val() != '' && $('#description').val() != '' && $('#validto').val() != '') {
+            if (selected == false) {
+                $.ajax({
+                    type: "POST",
+                    url: '/add',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    async: true,
+                    data: JSON.stringify({
+                        "document": $('#document').val(),
+                        "description": $('#description').val(),
+                        "validTo": $('#validto').val(),
+                        "valid": valid
+                    }),
+                    success: function(returndata) {
+                        table.row.add([
+                            '<a href="/details/' + returndata._id + '">' + returndata._id + '</a>',
                             $('#document').val(),
                             $('#description').val(),
                             valid,
                             $('#validto').val()
-                        ])
-                        .draw(true);
 
-                    table.$('tr.selected').removeClass('selected');
-                    selected = false;
-                    selectedId = '';
-                    $('#document').val('');
-                    $('#description').val('');
-                    $('#validto').val('');
-                    $('#valid').attr('checked', true);
+                        ]).draw(true);
+                        $('#document').val('');
+                        $('#description').val('');
+                        $('#validto').val('');
+                        $('#valid').attr('checked', true);
+                        $.notify("Added",  "success");
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '/update',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    async: true,
+                    data: JSON.stringify({
+                        "id": selectedId,
+                        "document": $('#document').val(),
+                        "description": $('#description').val(),
+                        "validTo": $('#validto').val(),
+                        "valid": valid
+                    }),
+                    success: function(returndata) {
+                        var r = table.rows('.selected');
 
+                        table
+                            .row(r)
+                            .data(
+                            [
+                                '<a href="/details/' + selectedId + '">' + selectedId + '</a>',
+                                $('#document').val(),
+                                $('#description').val(),
+                                valid,
+                                $('#validto').val()
+                            ])
+                            .draw(true);
 
-
-
-                }
-            });
+                        table.$('tr.selected').removeClass('selected');
+                        selected = false;
+                        selectedId = '';
+                        $('#document').val('');
+                        $('#description').val('');
+                        $('#validto').val('');
+                        $('#valid').attr('checked', true);
+                        $.notify("Updated", "success");
+                    }
+                });
+            }
+        } else {
+            $.notify("Please fill all the fields.", "error");
         }
     });
 
